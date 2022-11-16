@@ -21,4 +21,9 @@ model.fit(train_features.values, prices[0].values)
 # Predict price of test data and print results
 test_prices = model.predict(test_features.values)
 
-print(test_prices)
+output = pandas.DataFrame({
+    "Id" : pandas.read_csv("./Data/test.csv")['Id'],
+    "SalePrice" : test_prices
+})
+
+output.to_csv("submission.csv", index=False)
