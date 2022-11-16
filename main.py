@@ -1,25 +1,29 @@
-import pandas as pd
-from sklearn import tree
+'''
+I think that some types of values are present in train but not test so the dummies are inequal
+train test is 50% split
+'''
 
-# Get train data from .csv file
-train_data = pd.read_csv('./Data/train.csv')
-# print(train_data.head())
+import pandas
+from sklearn.ensemble import HistGradientBoostingRegressor as Regressor
 
-# Get rid of unecessary data and establish dependent
-train_features = train_data.drop('column_name', axis = 'columns')
-train_price = train_data.SalePrice
+# Get data
+features = [pandas.read_csv('./Data/train.csv').drop('Id', axis='columns'),
+            pandas.read_csv("./Data/test.csv").drop('Id', axis='columns')]
+prices = [pandas.read_csv('./Data/train.csv')['SalePrice']]
 
-# Create regression model and fit it to train data
-regressor = tree.DecisionTreeRegressor()
-regressor.fit(train_features, train_price)
+# Create dummies
+full_set = pandas.concat(features)
+full_set = pandas.get_dummies(data=full_set, drop_first=False)
 
-# Get test data from .csv file
-test_data = pd.read_csv("./Data/test.csv")
-# print(test_data.head())
+# Reseparate train and test
+train_features = full_set[:1462,:]
+test_features = full_set[1462:,:]
 
-# Get rid of unecessary data
-test_features = train_data.drop('column_name', axis = 'columns')
+# Create and train model
+model = Regressor()
+model.fit(train_features.values, train_price.values)
 
 # Predict price of test data and print results
-test_price = regressor.predict(test_features)
-print(test_price)
+test_prices = model.predict(test_features.values)
+
+print(test_prices)
