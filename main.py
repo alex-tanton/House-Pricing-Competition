@@ -1,8 +1,3 @@
-'''
-I think that some types of values are present in train but not test so the dummies are inequal
-train test is 50% split
-'''
-
 import pandas
 from sklearn.ensemble import HistGradientBoostingRegressor as Regressor
 
@@ -16,12 +11,12 @@ full_set = pandas.concat(features)
 full_set = pandas.get_dummies(data=full_set, drop_first=False)
 
 # Reseparate train and test
-train_features = full_set[:1462,:]
-test_features = full_set[1462:,:]
+train_features = full_set[:1460]
+test_features = full_set[1460:]
 
 # Create and train model
 model = Regressor()
-model.fit(train_features.values, train_price.values)
+model.fit(train_features.values, prices[0].values)
 
 # Predict price of test data and print results
 test_prices = model.predict(test_features.values)
