@@ -2,7 +2,7 @@ import pandas
 from sklearn.ensemble import HistGradientBoostingRegressor as Regressor
 
 # Get data
-features = [pandas.read_csv('./Data/train.csv').drop('Id', axis='columns'),
+features = [pandas.read_csv('./Data/train.csv').drop('Id', axis='columns').drop('SalePrice', axis='columns'),
             pandas.read_csv("./Data/test.csv").drop('Id', axis='columns')]
 prices = [pandas.read_csv('./Data/train.csv')['SalePrice']]
 
